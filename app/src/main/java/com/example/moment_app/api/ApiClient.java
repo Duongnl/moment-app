@@ -19,7 +19,7 @@ public class ApiClient {
                         Request original = chain.request();
 
                         // Lấy token từ SharedPreferences
-                        SharedPreferences sharedPreferences = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+                        SharedPreferences sharedPreferences = context.getSharedPreferences("MomentPrefs", Context.MODE_PRIVATE);
                         String token = sharedPreferences.getString("access_token", "");
 
                         Request.Builder requestBuilder = original.newBuilder()
