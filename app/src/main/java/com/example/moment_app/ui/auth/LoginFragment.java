@@ -9,11 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.moment_app.R;
@@ -42,6 +45,8 @@ public class LoginFragment extends Fragment {
     private EditText editTextUsername;
     private  EditText editTextPassword;
     private Button buttonLogin;
+
+    private TextView textViewNotiLoginFail;
 
     private AuthenticationRepository authenticationRepository;
 
@@ -88,9 +93,46 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        textViewNotiLoginFail = view.findViewById(R.id.textViewNotiLoginFail);
+        textViewNotiLoginFail.setVisibility(View.GONE);
+
         editTextUsername =  view.findViewById(R.id.editTextUsername);
         editTextPassword =  view.findViewById(R.id.editTextPassword);
         buttonLogin =  view.findViewById(R.id.buttonLogin);
+
+        editTextUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textViewNotiLoginFail.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        editTextPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textViewNotiLoginFail.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         authenticationRepository = new AuthenticationRepository(requireContext());
 
@@ -108,6 +150,7 @@ public class LoginFragment extends Fragment {
                         Toast.makeText(getContext(),  String.valueOf(response.getStatus())  , Toast.LENGTH_SHORT).show();
 
                         if (response.getStatus() == 200) {
+                            textViewNotiLoginFail.setVisibility(View.GONE);
                             SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MomentPrefs", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("access_token", response.getResult().getToken());
@@ -116,6 +159,8 @@ public class LoginFragment extends Fragment {
                             Intent intent = new Intent(getContext(), MainActivity.class);
                             startActivity(intent); // Mở MainActivity
                             requireActivity().finish(); // Kết thúc màn hình hiện tại (đăng nhập)
+                        } else {
+                            textViewNotiLoginFail.setVisibility(View.VISIBLE);
                         }
 
 
