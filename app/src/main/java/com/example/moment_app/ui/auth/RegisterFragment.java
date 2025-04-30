@@ -24,7 +24,6 @@ import com.example.moment_app.R;
 public class RegisterFragment extends Fragment {
 
     private Button buttonRegister;
-    private Button buttonDeleteToken;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -79,7 +78,7 @@ public class RegisterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         buttonRegister =  view.findViewById(R.id.buttonRegister);
-        buttonDeleteToken =  view.findViewById(R.id.buttonDeleteToken);
+
         buttonRegister.setOnClickListener(v -> {
             SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MomentPrefs", Context.MODE_PRIVATE);
             String token = sharedPreferences.getString("access_token", null);
@@ -87,12 +86,6 @@ public class RegisterFragment extends Fragment {
 
         });
 
-        buttonDeleteToken.setOnClickListener(v -> {
-            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MomentPrefs", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.remove("access_token"); // Xóa key access_token
-            editor.apply(); // hoặc editor.commit();
-        });
 
 
 
