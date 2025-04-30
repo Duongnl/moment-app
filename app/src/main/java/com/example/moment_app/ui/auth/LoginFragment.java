@@ -1,6 +1,7 @@
 package com.example.moment_app.ui.auth;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -20,6 +21,7 @@ import com.example.moment_app.models.request.AuthenticationRequest;
 import com.example.moment_app.models.response.ApiResponse;
 import com.example.moment_app.models.response.AuthenticationResponse;
 import com.example.moment_app.repository.AuthenticationRepository;
+import com.example.moment_app.ui.main.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,8 +94,6 @@ public class LoginFragment extends Fragment {
 
         authenticationRepository = new AuthenticationRepository(requireContext());
 
-
-
         // Lắng nghe sự kiện click
         buttonLogin.setOnClickListener(v -> {
             String username = editTextUsername.getText().toString().trim();
@@ -112,6 +112,10 @@ public class LoginFragment extends Fragment {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("access_token", response.getResult().getToken());
                             editor.apply(); // hoặc editor.commit();
+
+                            Intent intent = new Intent(getContext(), MainActivity.class);
+                            startActivity(intent); // Mở MainActivity
+                            requireActivity().finish(); // Kết thúc màn hình hiện tại (đăng nhập)
                         }
 
 

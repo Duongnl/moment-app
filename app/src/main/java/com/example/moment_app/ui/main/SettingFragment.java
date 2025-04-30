@@ -1,14 +1,21 @@
 package com.example.moment_app.ui.main;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.moment_app.R;
+import com.example.moment_app.ui.auth.AuthActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +23,7 @@ import com.example.moment_app.R;
  * create an instance of this fragment.
  */
 public class SettingFragment extends Fragment {
+    private Button buttonLogout;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,5 +70,23 @@ public class SettingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_setting, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        buttonLogout = view.findViewById(R.id.buttonLogout);
+        buttonLogout.setOnClickListener(v -> {
+
+            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MomentPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.remove("access_token"); // Xóa key access_token
+            editor.apply(); // hoặc editor.commit();
+
+
+            Intent intent = new Intent(getContext(), AuthActivity.class);
+            startActivity(intent); // Mở MainActivity
+            requireActivity().finish();
+        });
     }
 }

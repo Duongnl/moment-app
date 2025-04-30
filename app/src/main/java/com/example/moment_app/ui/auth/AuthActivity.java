@@ -1,5 +1,8 @@
 package com.example.moment_app.ui.auth;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -10,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.moment_app.R;
+import com.example.moment_app.ui.main.MainActivity;
 import com.google.android.material.tabs.TabLayout;
 
 public class AuthActivity extends AppCompatActivity {
@@ -21,6 +25,14 @@ public class AuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_auth);
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences("MomentPrefs", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("access_token", null);
+        if (token != null) {
+            Intent intent = new Intent(this, MainActivity.class); // Sử dụng `this` thay vì `getContext()`
+            startActivity(intent); // Mở MainActivity
+            finish(); // Kết thúc màn hình hiện tại (đăng nhập)
+        }
 
         tabLayoutAuth = findViewById(R.id.tabLayoutAuth);
         tabLayoutAuth.addTab(tabLayoutAuth.newTab().setText("Đăng nhập"));
