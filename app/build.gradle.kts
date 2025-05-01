@@ -54,4 +54,6 @@ dependencies {
     annotationProcessor(libs.lombok)
 
     implementation(libs.jackson.annotations)
+    implementation(libs.glide)
+    annotationProcessor(libs.glideCompiler)
 }

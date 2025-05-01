@@ -1,0 +1,86 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:background="#444444">
+
+    <!-- Avatar -->
+    <ImageView
+        android:id="@+id/imageViewAvt"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="8dp"
+        android:scaleType="centerCrop"
+        android:background="#444444"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Tên người dùng -->
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tên người dùng"
+        android:paddingLeft="8dp"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:textAlignment="textStart"
+        app:layout_constraintTop_toTopOf="@+id/imageViewAvt"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTime"
+        app:layout_constraintStart_toEndOf="@+id/imageViewAvt"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Thời gian -->
+    <TextView
+        android:id="@+id/textViewTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Thời gian"
+        android:paddingLeft="8dp"
+        android:textSize="14sp"
+        android:textColor="#888888"
+        android:textAlignment="textStart"
+        app:layout_constraintTop_toBottomOf="@+id/textViewName"
+        app:layout_constraintStart_toStartOf="@+id/textViewName"
+        app:layout_constraintEnd_toEndOf="@+id/textViewName" />
+
+    <!-- Caption -->
+    <TextView
+        android:id="@+id/textViewCaption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Đây là caption"
+        android:textColor="#FBFBFB"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Ảnh chính -->
+    <ImageView
+        android:id="@+id/imageViewPhoto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:background="#444444"
+        android:scaleType="fitCenter"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCaption"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_marginTop="12dp"
+        android:background="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewPhoto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
