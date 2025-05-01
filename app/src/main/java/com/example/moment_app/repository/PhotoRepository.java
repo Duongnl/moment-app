@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.moment_app.api.ApiClient;
 import com.example.moment_app.api.PhotoApiService;
 import com.example.moment_app.models.request.PhotoFilterRequest;
+import com.example.moment_app.models.request.PostRequest;
 import com.example.moment_app.models.response.ApiResponse;
 import com.example.moment_app.models.response.PhotoResponse;
 
@@ -39,10 +40,36 @@ public class PhotoRepository {
         });
     }
 
+
+    public void post(PostRequest request, PostCallback callback) {
+        photoApiService.post(request).enqueue(new Callback<ApiResponse<PhotoResponse>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<PhotoResponse>> call, Response<ApiResponse<PhotoResponse>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError(new Exception("Không lấy được dữ liệu ảnh"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<PhotoResponse>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+
+
+
     public interface PhotoCallback {
         void onSuccess(ApiResponse<List<PhotoResponse>> photos);
         void onError(Throwable t);
     }
 
+    public interface PostCallback {
+        void onSuccess(ApiResponse<PhotoResponse> post);
+        void onError(Throwable t);
+    }
 
 }
