@@ -19,7 +19,7 @@ public class PhotoResponse {
     private Integer id;
     private String urlPhoto;
     private String caption;
-    private LocalDateTime createdAt;
+    private String createdAt;
     private String slug;
     private String name;
     private String urlAvt;
@@ -28,7 +28,7 @@ public class PhotoResponse {
     public PhotoResponse() {
     }
 
-    public PhotoResponse(Integer id, String urlPhoto, String caption, LocalDateTime createdAt, String slug, String name, String urlAvt, String userName) {
+    public PhotoResponse(Integer id, String urlPhoto, String caption, String createdAt, String slug, String name, String urlAvt, String userName) {
         this.id = id;
         this.urlPhoto = urlPhoto;
         this.caption = caption;

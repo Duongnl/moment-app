@@ -12,5 +12,7 @@ import retrofit2.http.POST;
 
 public interface PhotoApiService {
     @POST("photo")
-    Call<ApiResponse<List<PhotoResponse>>> getListPhotoFriends(@Body PhotoFilterRequest request );
+    Call<ApiResponse<List<PhotoResponse>>> getListPhotoFriends(@Body PhotoFilterRequest request);
+
+
 }
