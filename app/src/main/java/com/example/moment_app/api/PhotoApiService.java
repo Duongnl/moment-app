@@ -1,6 +1,7 @@
 package com.example.moment_app.api;
 
 import com.example.moment_app.models.request.PhotoFilterRequest;
+import com.example.moment_app.models.request.PostRequest;
 import com.example.moment_app.models.response.ApiResponse;
 import com.example.moment_app.models.response.PhotoResponse;
 
@@ -13,6 +14,10 @@ import retrofit2.http.POST;
 public interface PhotoApiService {
     @POST("photo")
     Call<ApiResponse<List<PhotoResponse>>> getListPhotoFriends(@Body PhotoFilterRequest request);
+
+    @POST("photo/post")
+    Call<ApiResponse<PhotoResponse>>post(@Body PostRequest request);
+
 
 
 }

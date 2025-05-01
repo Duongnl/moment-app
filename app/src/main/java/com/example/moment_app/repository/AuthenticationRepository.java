@@ -10,6 +10,7 @@ import com.example.moment_app.models.request.PhotoFilterRequest;
 import com.example.moment_app.models.response.ApiResponse;
 import com.example.moment_app.models.response.AuthenticationResponse;
 import com.example.moment_app.models.response.PhotoResponse;
+import com.example.moment_app.models.response.UserResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -60,9 +61,52 @@ public class AuthenticationRepository {
         });
     }
 
-    public interface AuthenticationCallback {
-        void onSuccess(ApiResponse<AuthenticationResponse> authentication);
+
+    public void getMyInfo(UserCallback callback) {
+        authenticationApiService.getMyInfo().enqueue(new Callback<ApiResponse<UserResponse>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<UserResponse>> call, Response<ApiResponse<UserResponse>> response) {
+                try {
+                    if (response.body() != null) {
+                        // Response 200 OK + có dữ liệu
+                        callback.onSuccess(response.body());
+                    } else if (response.errorBody() != null) {
+                        // Trường hợp lỗi nhưng server vẫn trả về body JSON
+                        Gson gson = new Gson();
+                        ApiResponse<UserResponse> errorResponse = gson.fromJson(
+                                response.errorBody().charStream(),
+                                new TypeToken<ApiResponse<UserResponse>>() {}.getType()
+                        );
+                        callback.onSuccess(errorResponse); // xử lý chung như response OK
+                    } else {
+                        callback.onError(new Exception("Không có dữ liệu phản hồi từ server"));
+                    }
+                } catch (Exception e) {
+                    callback.onError(e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<UserResponse>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public interface UserCallback {
+        void onSuccess(ApiResponse<UserResponse> userResponse);
+
         void onError(Throwable t);
     }
+
+
+    public interface AuthenticationCallback {
+        void onSuccess(ApiResponse<AuthenticationResponse> authentication);
+
+        void onError(Throwable t);
+    }
+
+
+
 
 }
