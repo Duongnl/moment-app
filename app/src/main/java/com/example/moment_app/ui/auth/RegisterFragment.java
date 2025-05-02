@@ -26,17 +26,9 @@ import com.example.moment_app.models.request.RegisterRequest;
 import com.example.moment_app.models.response.ApiResponse;
 import com.example.moment_app.models.response.AuthenticationResponse;
 import com.example.moment_app.repository.AccountRepository;
-import com.example.moment_app.repository.AuthenticationRepository;
 import com.example.moment_app.ui.main.MainActivity;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -129,7 +121,7 @@ public class RegisterFragment extends Fragment {
 
         textViewPasswordError =  view.findViewById(R.id.textViewPasswordError);
 
-        radioGroupSex =  view.findViewById(R.id.radioGroupSex);
+        radioGroupSex =  view.findViewById(R.id.radioGroupSexSetting);
         textViewBirthdayError = view.findViewById(R.id.textViewBirthdayError);
 
 
@@ -248,16 +240,12 @@ public class RegisterFragment extends Fragment {
             int selectedId = radioGroupSex.getCheckedRadioButtonId();
             String gender = ""; // Biến chứa giá trị cần trả về
 
-            if (selectedId == R.id.radioMale) {
+            if (selectedId == R.id.radioMaleSetting) {
                 gender = "male";
-            } else if (selectedId == R.id.radioFemale) {
+            } else if (selectedId == R.id.radioFemaleSetting) {
                 gender = "female";
             }
             request.setSex(gender);
-
-
-
-
 
 
             accountRepository.register(request, new AccountRepository.AccountCallback() {
@@ -324,6 +312,7 @@ public class RegisterFragment extends Fragment {
                     });
                 }
             });
+
         });
 
 

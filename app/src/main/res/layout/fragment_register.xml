@@ -214,7 +214,7 @@
         />
 
     <RadioGroup
-        android:id="@+id/radioGroupSex"
+        android:id="@+id/radioGroupSexSetting"
         android:layout_width="203dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
@@ -227,7 +227,7 @@
         app:layout_constraintVertical_bias="0.464">
 
         <RadioButton
-            android:id="@+id/radioMale"
+            android:id="@+id/radioMaleSetting"
             android:layout_width="99dp"
             android:layout_height="wrap_content"
             android:text="Nam"
@@ -235,7 +235,7 @@
             />
 
         <RadioButton
-            android:id="@+id/radioFemale"
+            android:id="@+id/radioFemaleSetting"
             android:layout_width="83dp"
             android:layout_height="match_parent"
             android:text="Nữ" />

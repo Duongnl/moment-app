@@ -22,6 +22,7 @@ public class UserResponse {
     String birthday;
     String address;
     String urlPhoto;
+    String sex;
     int status;
 
     public UserResponse() {
