@@ -158,6 +158,18 @@ public class ChangeUsernameFragment extends Fragment {
             }
         });
 
+        buttonBackChangeUsername.setOnClickListener(v -> {
+            Fragment setting = new SettingFragment(); // fragment bạn muốn mở
+
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerMain, setting) // ID của container chứa Fragment
+                    .addToBackStack(null) // cho phép quay lại bằng nút back
+                    .commit();
+
+        });
+
 
         accountRepository = new AccountRepository(requireContext());
         buttonSaveUsername.setOnClickListener(v -> {

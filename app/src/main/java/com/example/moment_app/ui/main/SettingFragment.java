@@ -146,6 +146,18 @@ public class SettingFragment extends Fragment {
 
         });
 
+        buttonChangePassword.setOnClickListener(v -> {
+            Fragment password = new ChangePasswordFragment(); // fragment bạn muốn mở
+
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerMain, password) // ID của container chứa Fragment
+                    .addToBackStack(null) // cho phép quay lại bằng nút back
+                    .commit();
+
+        });
+
 
         authenticationRepository = new AuthenticationRepository(requireContext());
 

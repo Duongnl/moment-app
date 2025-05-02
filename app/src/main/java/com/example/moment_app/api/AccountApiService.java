@@ -1,6 +1,7 @@
 package com.example.moment_app.api;
 
 import com.example.moment_app.models.request.AccountInfoRequest;
+import com.example.moment_app.models.request.ChangePasswordRequest;
 import com.example.moment_app.models.request.RegisterRequest;
 import com.example.moment_app.models.response.ApiResponse;
 import com.example.moment_app.models.response.AuthenticationResponse;
@@ -23,6 +24,12 @@ public interface AccountApiService {
 
     @PUT("account/change-username")
     Call<ApiResponse<Void>> changeUserName(@Body AccountInfoRequest request );
+
+
+    @PUT("account/change-password")
+    Call<ApiResponse<Void>> changePassword(@Body ChangePasswordRequest request );
+
+
 
 
 
