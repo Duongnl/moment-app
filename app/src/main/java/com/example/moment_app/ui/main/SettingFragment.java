@@ -13,8 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.moment_app.R;
+import com.example.moment_app.models.response.ApiResponse;
+import com.example.moment_app.models.response.UserResponse;
+import com.example.moment_app.repository.AccountRepository;
+import com.example.moment_app.repository.AuthenticationRepository;
 import com.example.moment_app.ui.auth.AuthActivity;
 
 /**
@@ -24,6 +32,21 @@ import com.example.moment_app.ui.auth.AuthActivity;
  */
 public class SettingFragment extends Fragment {
     private Button buttonLogout;
+
+    private ImageView imageViewAvtSetting;
+    private TextView textViewNameSetting;
+    private TextView textViewUsernameSetting;
+    private TextView textViewSexSetting;
+    private TextView textViewBirthdaySetting;
+    private Button buttonChangeProfile;
+    private Button buttonChangePassword;
+    private Button buttonChangeUsername;
+
+    private AccountRepository accountRepository;
+
+
+    private AuthenticationRepository authenticationRepository;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,6 +99,16 @@ public class SettingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         buttonLogout = view.findViewById(R.id.buttonLogout);
+
+         imageViewAvtSetting  = view.findViewById(R.id.imageViewAvtSetting);
+         textViewNameSetting  = view.findViewById(R.id.textViewNameSetting);
+         textViewUsernameSetting  = view.findViewById(R.id.textViewUsernameSetting);
+         textViewSexSetting  = view.findViewById(R.id.textViewSexSetting);
+         textViewBirthdaySetting  = view.findViewById(R.id.textViewBirthdaySetting);
+         buttonChangeProfile  = view.findViewById(R.id.buttonChangeProfile);
+         buttonChangePassword  = view.findViewById(R.id.buttonChangePassword);
+         buttonChangeUsername  = view.findViewById(R.id.buttonChangeUsername);
+
         buttonLogout.setOnClickListener(v -> {
 
             SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MomentPrefs", Context.MODE_PRIVATE);
@@ -88,5 +121,81 @@ public class SettingFragment extends Fragment {
             startActivity(intent); // Mở MainActivity
             requireActivity().finish();
         });
+
+        buttonChangeProfile.setOnClickListener(v -> {
+            Fragment profileFragment = new ChangeProfileFragment(); // fragment bạn muốn mở
+
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerMain, profileFragment) // ID của container chứa Fragment
+                    .addToBackStack(null) // cho phép quay lại bằng nút back
+                    .commit();
+
+        });
+
+        buttonChangeUsername.setOnClickListener(v -> {
+            Fragment username = new ChangeUsernameFragment(); // fragment bạn muốn mở
+
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerMain, username) // ID của container chứa Fragment
+                    .addToBackStack(null) // cho phép quay lại bằng nút back
+                    .commit();
+
+        });
+
+
+        authenticationRepository = new AuthenticationRepository(requireContext());
+
+        authenticationRepository.getMyInfo(new AuthenticationRepository.UserCallback() {
+            @Override
+            public void onSuccess(ApiResponse<UserResponse> response) {
+                requireActivity().runOnUiThread(() -> {
+                    Toast.makeText(getContext(), "Status: " + response.getStatus(), Toast.LENGTH_SHORT).show();
+
+                    if (response.getStatus() == 200) {
+                        // Lấy thông tin người dùng
+                        textViewNameSetting.setText(response.getResult().getName());
+                        String imageUrl = "https://res.cloudinary.com/moment-images/image/upload/" + response.getResult().getUrlPhoto();
+
+                        Glide.with(requireContext())
+                                .load(imageUrl)
+                                .circleCrop()
+                                .into(imageViewAvtSetting);
+                        textViewUsernameSetting.setText(response.getResult().getUserName());
+                        textViewBirthdaySetting.setText(response.getResult().getBirthday());
+                        if (response.getResult().getSex().equals("male")) {
+                            textViewSexSetting.setText("Nam");
+                        }
+                        else if (response.getResult().getSex().equals("female")) {
+                            textViewSexSetting.setText("Nữ");
+                        } else if (response.getResult().getSex().equals("other")) {
+                            textViewSexSetting.setText("Khác");
+                        }
+
+
+
+
+                    } else {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                requireActivity().runOnUiThread(() -> {
+                    Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                });
+            }
+        });
+
+
+
+
+
     }
 }
