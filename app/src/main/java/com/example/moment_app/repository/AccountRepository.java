@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.moment_app.api.AccountApiService;
 import com.example.moment_app.api.ApiClient;
 import com.example.moment_app.models.request.AccountInfoRequest;
+import com.example.moment_app.models.request.ChangePasswordRequest;
 import com.example.moment_app.models.request.RegisterRequest;
 import com.example.moment_app.models.response.ApiResponse;
 import com.example.moment_app.models.response.AuthenticationResponse;
@@ -91,6 +92,39 @@ public class AccountRepository {
 
     public void changeUserName(AccountInfoRequest request, AccountRepository.AccountInfoCallback callback) {
         accountApiService.changeUserName(request).enqueue(new Callback<ApiResponse<Void>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<Void>> call, Response<ApiResponse<Void>> response) {
+                try {
+
+                    if (response.body() != null) {
+                        // Trường hợp response 200 + body
+                        callback.onSuccess(response.body());
+                    } else if (response.errorBody() != null) {
+                        // Trường hợp response != 200 nhưng có dữ liệu JSON trong errorBody
+                        Gson gson = new Gson();
+                        ApiResponse<Void> errorResponse = gson.fromJson(
+                                response.errorBody().charStream(),
+                                new TypeToken<ApiResponse<AuthenticationResponse>>() {}.getType()
+                        );
+                        callback.onSuccess(errorResponse); // vẫn trả về trong onSuccess để xử lý chung
+                    } else {
+                        callback.onError(new Exception("Không có dữ liệu phản hồi từ server"));
+                    }
+
+                } catch (Exception e) {
+                    callback.onError(e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<Void>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void changePassword (ChangePasswordRequest request, AccountRepository.AccountInfoCallback callback) {
+        accountApiService.changePassword(request).enqueue(new Callback<ApiResponse<Void>>() {
             @Override
             public void onResponse(Call<ApiResponse<Void>> call, Response<ApiResponse<Void>> response) {
                 try {
