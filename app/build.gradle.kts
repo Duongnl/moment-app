@@ -56,4 +56,6 @@ dependencies {
     implementation(libs.jackson.annotations)
     implementation(libs.glide)
     annotationProcessor(libs.glideCompiler)
+    implementation(libs.circleimageview)
+
 }

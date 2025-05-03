@@ -22,6 +22,7 @@ import com.example.moment_app.R;
 import com.example.moment_app.adapters.FriendAdapter;
 import com.example.moment_app.adapters.HomeAdapter;
 import com.example.moment_app.adapters.OnFriendActionListener;
+import com.example.moment_app.models.request.FriendFilterRequest;
 import com.example.moment_app.models.response.AccountResponse;
 import com.example.moment_app.models.response.ApiResponse;
 import com.example.moment_app.models.response.PhotoResponse;
@@ -30,7 +31,10 @@ import com.example.moment_app.repository.PhotoRepository;
 import com.example.moment_app.models.request.FriendInviteRequest;
 import com.example.moment_app.ui.auth.AuthActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -336,6 +340,38 @@ public class FriendFragment extends Fragment {
             });
 
         });
+
+
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String currentTimeISO8601 = sdf.format(now);
+
+        FriendFilterRequest request = new FriendFilterRequest(0, currentTimeISO8601);
+
+        accountRepository.getFriendsReceived(request, new AccountRepository.SearchFriendCallback() {
+            @Override
+            public void onSuccess(ApiResponse<List<AccountResponse>> response) {
+                requireActivity().runOnUiThread(() -> {
+                    Toast.makeText(getContext(),  String.valueOf(response.getStatus())  , Toast.LENGTH_SHORT).show();
+
+                    if (response.getStatus() == 200) {
+                        buttonReceivedInvites.setText("Lời mời kết bạn (" + response.getResult().size() +")");
+                    } else {
+
+                    }
+                    // TODO: Chuyển màn hình hoặc lưu token, v.v.
+                });
+            }
+            @Override
+            public void onError(Throwable t) {
+                requireActivity().runOnUiThread(() -> {
+                    Toast.makeText(getContext(), "error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    System.out.println("fail response"+ t.getMessage());
+                });
+            }
+        });
+
 
 
 

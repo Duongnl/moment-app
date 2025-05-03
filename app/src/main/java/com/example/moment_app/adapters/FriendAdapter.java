@@ -49,7 +49,12 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
         holder.textViewUserNameFr.setText(accountResponse.getName());
 
         String urlAvt = "https://res.cloudinary.com/moment-images/image/upload/" + accountResponse.getUrlPhoto();
-        Glide.with(context).load(urlAvt).circleCrop().into(holder.imageViewAvatarFr);
+        Glide.with(context)
+                .load(urlAvt)
+                .circleCrop()
+                .error(R.drawable.avatar)
+                .placeholder(R.drawable.avatar)
+                .into(holder.imageViewAvatarFr);
 
         FriendInviteRequest friendInviteRequest = new FriendInviteRequest();
         friendInviteRequest.setAccountFriendId(accountResponse.getId());

@@ -8,7 +8,7 @@
     android:background="#444444">
 
     <!-- Avatar -->
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageViewAvt"
         android:layout_width="60dp"
         android:layout_height="60dp"

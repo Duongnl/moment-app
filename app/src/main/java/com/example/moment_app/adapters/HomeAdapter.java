@@ -59,7 +59,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PhotoViewHolde
         }
 
         String urlAvt = "https://res.cloudinary.com/moment-images/image/upload/" + photo.getUrlAvt();
-        Glide.with(context).load(urlAvt).circleCrop().into(holder.imageViewAvt);
+        Glide.with(context)
+                .load(urlAvt)
+                .circleCrop()
+                .error(R.drawable.avatar)
+                .placeholder(R.drawable.avatar)
+                .into(holder.imageViewAvt);
+
         String urlPhoto = "https://res.cloudinary.com/moment-images/image/upload/" + photo.getUrlPhoto();
         Glide.with(context).load(urlPhoto).into(holder.imageViewPhoto);
     }
