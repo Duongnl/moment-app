@@ -36,7 +36,7 @@ public class ApiClient {
 
             retrofit = new Retrofit.Builder()
 //                    .baseUrl("https://be.moment.liber.vn/api/")
-                    .baseUrl("http://192.168.1.8:8080/api/")
+                    .baseUrl("http://192.168.1.5:8080/api/")
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
