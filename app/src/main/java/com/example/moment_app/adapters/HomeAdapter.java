@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.moment_app.R;
+import com.example.moment_app.models.request.FriendInviteRequest;
 import com.example.moment_app.models.response.PhotoResponse;
 
 import java.text.ParseException;
@@ -57,10 +58,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PhotoViewHolde
             e.printStackTrace();
         }
 
-
-
-
-
         String urlAvt = "https://res.cloudinary.com/moment-images/image/upload/" + photo.getUrlAvt();
         Glide.with(context).load(urlAvt).circleCrop().into(holder.imageViewAvt);
         String urlPhoto = "https://res.cloudinary.com/moment-images/image/upload/" + photo.getUrlPhoto();
@@ -97,5 +94,4 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PhotoViewHolde
 
         }
     }
-
 }
