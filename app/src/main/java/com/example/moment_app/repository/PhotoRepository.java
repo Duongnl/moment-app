@@ -59,8 +59,30 @@ public class PhotoRepository {
         });
     }
 
+    public void changeAvatar(PostRequest request, AvtCallback callback) {
+        photoApiService.changeAvatar(request).enqueue(new Callback<ApiResponse<Void>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<Void>> call, Response<ApiResponse<Void>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError(new Exception("Không lấy được dữ liệu ảnh"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<Void>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
 
 
+
+    public interface AvtCallback {
+        void onSuccess(ApiResponse<Void> photos);
+        void onError(Throwable t);
+    }
 
     public interface PhotoCallback {
         void onSuccess(ApiResponse<List<PhotoResponse>> photos);

@@ -42,6 +42,8 @@ public class SettingFragment extends Fragment {
     private Button buttonChangePassword;
     private Button buttonChangeUsername;
 
+    private  Button buttonChangeAvtSetting;
+
     private AccountRepository accountRepository;
 
 
@@ -108,6 +110,7 @@ public class SettingFragment extends Fragment {
          buttonChangeProfile  = view.findViewById(R.id.buttonChangeProfile);
          buttonChangePassword  = view.findViewById(R.id.buttonChangePassword);
          buttonChangeUsername  = view.findViewById(R.id.buttonChangeUsername);
+        buttonChangeAvtSetting = view.findViewById(R.id.buttonChangeAvtSetting);
 
         buttonLogout.setOnClickListener(v -> {
 
@@ -158,6 +161,18 @@ public class SettingFragment extends Fragment {
 
         });
 
+        buttonChangeAvtSetting.setOnClickListener(v -> {
+            Fragment password = new ChangeAvtFragment(); // fragment bạn muốn mở
+
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerMain, password) // ID của container chứa Fragment
+                    .addToBackStack(null) // cho phép quay lại bằng nút back
+                    .commit();
+
+        });
+
 
         authenticationRepository = new AuthenticationRepository(requireContext());
 
@@ -175,6 +190,8 @@ public class SettingFragment extends Fragment {
                         Glide.with(requireContext())
                                 .load(imageUrl)
                                 .circleCrop()
+                                .error(R.drawable.avatar)
+                                .placeholder(R.drawable.avatar)
                                 .into(imageViewAvtSetting);
                         textViewUsernameSetting.setText(response.getResult().getUserName());
                         textViewBirthdaySetting.setText(response.getResult().getBirthday());

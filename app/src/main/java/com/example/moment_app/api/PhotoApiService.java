@@ -18,6 +18,9 @@ public interface PhotoApiService {
     @POST("photo/post")
     Call<ApiResponse<PhotoResponse>>post(@Body PostRequest request);
 
+    @POST("photo/change-avatar")
+    Call<ApiResponse<Void> > changeAvatar(@Body PostRequest postRequest);
+
 
 
 }
